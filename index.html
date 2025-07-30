@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bhaskar | Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+
+    <header>
+        <h1>Bhaskar</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <canvas id="matrixCanvas"></canvas>
+    <div class="matrix-overlay"></div>
+
+
+    <section id="home">
+        <h2 id="typingText" class="typing-cursor"></h2>
+        <p class="fade-in-text">
+            Full Stack Developer | Crafting code with purpose
+        </p>
+    </section>
+
+    <section id="about" class="section section-hidden">
+        <h2>About Me</h2>
+        <div class="about-container">
+            <img src="photo/photo.jpg" alt="Bhaskar's Photo" />
+            <div class="about-text">
+                <p>Hello! I'm Bhaskar Saren, a passionate Full Stack Web Developer with a B.Tech in Information Technology from Kalyani Government Engineering College. I enjoy building clean, functional, and user friendly websites using technologies like Java, JavaScript, HTML, CSS, and MySQL. I enjoy turning ideas into real world solutions using HTML, CSS, JavaScript.
+                </p>
+                <p>
+                    This website showcases my journey, projects, and interests as I grow as a developer. Let's connect and build something amazing together.
+                </p>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="projects" class="section section-hidden">
+        <h2>Projects</h2>
+        <div class="projects-container">
+            <div class="project-card">
+                <h3>Event Page</h3>
+                <p>An event page built with HTML and CSS, consisting of event schedule, speakers and to register for the Techfest event</p>
+                <a href="#" target="_blank">View Project</a>
+            </div>
+
+            <div class="project-card">
+                <h3>Personal Portfolio</h3>
+                <p>This very website! Built with HTML, CSS, and JavaScript, featuring animations and dark mode.</p>
+                <a href="#" target="_blank">View Project</a>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="resume" class="section section-hidden">
+        <h2>Resume</h2>
+        <div class="resume-container">
+            <p>You can view or download my resume by clicking 'Download' below.</p>
+            <a href="resume/Bhaskar Saren__Resume.pdf" class="resume-button" target="_blank">Download</a>
+        </div>
+    </section>
+
+
+
+    <section id="contact" class="section section-hidden">
+        <h2>Contact</h2>
+        <form id="contactForm" novalidate>
+            <label for="name">Name:</label>
+            <input type="text" id="name" required />
+
+            <label for="email">Email:</label>
+            <input type="text" id="email" required />
+
+            <label for="message">Message:</label>
+            <textarea id="message" rows="5" required></textarea>
+
+            <button type="submit">Send Message</button>
+            <p id="formMessage"></p>
+        </form>
+    </section>
+
+    <button id="scrollTopBtn" title="Go to top">⬆️</button>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
