@@ -24,20 +24,6 @@ It includes animated sections, a project showcase, a contact form, and backgroun
 - JavaScript
 - Git & GitHub
 
-## 📂 Project Structure
-/myWebsite
-├── images
-    └── event page thumbnail.png
-    └── portfolio thumbnail.png
-├── photo
-    └── photo.jpg
-├── resume
-    └── Bhaskar Saren_Resume.pdf
-├── index.html
-├── style.css
-├── script.js
-├── README.md
-
 
 ## 📬 Contact
 
