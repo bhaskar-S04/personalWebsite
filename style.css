@@ -187,9 +187,10 @@ section {
 
 .project-card {
   color: #f1f1f1;
-  background-color: rgba(0, 0, 0, 0.5);
+  background: linear-gradient(145deg, #171d19, #2e622f);
+  /* background-color: rgba(0, 0, 0, 0.5); */
   padding: 1.5rem;
-  border-radius: 12px;
+  border-radius: 16px;
   box-shadow: 0 4px 12px rgba(20, 233, 59, 0.3);
   transition: transform 0.4s ease;
 }
@@ -204,7 +205,7 @@ section {
 .project-card a {
   display: inline-block;
   margin-top: 1rem;
-  color: #0077cc;
+  color: #5aa8e0;
   text-decoration: none;
   font-weight: bold;
 }
