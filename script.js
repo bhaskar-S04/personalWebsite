@@ -21,12 +21,34 @@ fadeTexts.forEach (text => {
     observer.observe(text);
 });
 
-
+const scriptURL = "https://script.google.com/macros/s/AKfycbw3aSKmU9O70n31R2pzCuAsIRDjiBbgkAzEBIEZVu0SaUSHMzpw68JOL0iawRELaPsi/exec";
 const contactForm = document.getElementById("contactForm");
 const formMessage = document.getElementById("formMessage");
 
-contactForm.addEventListener("submit", function (e) {
+contactForm.addEventListener("submit", e => {
     e.preventDefault();
+
+    const formData = {
+        name: form.name.value,
+        email: form.email.value,
+        message: form.message.value
+    };
+
+    fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(res => {
+        formMessage.textContent = "Message sent successfully!";
+        form.reset();
+    })
+    .catch(err => {
+        formMessage.textContent = "Error sending message.";
+        console.error(err);
+    });
 
     const name = document.getElementById("name").value.trim();
     const email = document.getElementById("email").value.trim();
