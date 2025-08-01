@@ -28,28 +28,6 @@ const formMessage = document.getElementById("formMessage");
 contactForm.addEventListener("submit", e => {
     e.preventDefault();
 
-    const formData = {
-        name: form.name.value,
-        email: form.email.value,
-        message: form.message.value
-    };
-
-    fetch(scriptURL, {
-        method: "POST",
-        body: JSON.stringify(formData),
-        headers: {
-            "Content-Type": "application/json"
-        }
-    })
-    .then(res => {
-        formMessage.textContent = "Message sent successfully!";
-        form.reset();
-    })
-    .catch(err => {
-        formMessage.textContent = "Error sending message.";
-        console.error(err);
-    });
-
     const name = document.getElementById("name").value.trim();
     const email = document.getElementById("email").value.trim();
     const message = document.getElementById("message").value.trim();
@@ -68,21 +46,30 @@ contactForm.addEventListener("submit", e => {
     }
 
 
-    else if (!emailPattern.test(email)) {
+    if (!emailPattern.test(email)) {
         errorText = "! Please enter a valid email address.";
         formMessage.style.color = "crimson";
         formMessage.classList.add("show");
         return;
     } 
-    else {
-    errorText = "Message sent successfully!";
-    formMessage.style.color = "green";
-    formMessage.classList.add("show");
-    contactForm.reset();
-    }
 
-    formMessage.textContent = errorText;
-    formMessage.classList.add("show");
+
+    fetch(scriptURL, {
+        method: "POST",
+        body: new FormData(contactForm)
+    })
+    .then(res => {
+        formMessage.textContent = "Message sent successfully!";
+        formMessage.style.color = "green";
+        formMessage.classList.add("show");
+        contactForm.reset();
+    })
+    .catch(err => {
+        formMessage.textContent = "Error sending message.";
+        formMessage.style.color = "crimson";
+        formMessage.classList.add("show");
+        console.error(err);
+    });
 
 });
 

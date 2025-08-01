@@ -82,13 +82,13 @@
         <h2>Contact</h2>
         <form id="contactForm" novalidate>
             <label for="name">Name:</label>
-            <input type="text" id="name" required />
+            <input type="text" id="name" name="name" required />
 
             <label for="email">Email:</label>
-            <input type="text" id="email" required />
+            <input type="text" id="email" name="email" required />
 
             <label for="message">Message:</label>
-            <textarea id="message" rows="5" required></textarea>
+            <textarea id="message" rows="5" name="message" required></textarea>
 
             <button type="submit">Send Message</button>
             <p id="formMessage"></p>
