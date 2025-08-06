@@ -1,3 +1,5 @@
+
+
 const sections = document.querySelectorAll('.section');
 
 const observer = new IntersectionObserver((entries, observer) => {
@@ -21,11 +23,10 @@ fadeTexts.forEach (text => {
     observer.observe(text);
 });
 
-const scriptURL = "https://script.google.com/macros/s/AKfycbw3aSKmU9O70n31R2pzCuAsIRDjiBbgkAzEBIEZVu0SaUSHMzpw68JOL0iawRELaPsi/exec";
 const contactForm = document.getElementById("contactForm");
 const formMessage = document.getElementById("formMessage");
 
-contactForm.addEventListener("submit", e => {
+contactForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const name = document.getElementById("name").value.trim();
@@ -53,22 +54,49 @@ contactForm.addEventListener("submit", e => {
         return;
     } 
 
+    formMessage.textContent = "Sending...";
+    formMessage.style.color = "black";
+    formMessage.classList.add("show");
 
-    fetch(scriptURL, {
+
+    fetch("http://localhost:3000/contact", {
         method: "POST",
-        body: new FormData(contactForm)
+        headers: {
+            "Content-type": "application/json"
+        },
+        body: JSON.stringify({name, email, message})
     })
-    .then(res => {
-        formMessage.textContent = "Message sent successfully!";
-        formMessage.style.color = "green";
-        formMessage.classList.add("show");
-        contactForm.reset();
+
+    .then(response => {
+        if(response.ok) {
+        document.getElementById("formMessage").textContent = "Message sent successfully!";
+        document.getElementById("formMessage").style.color = "green";
+        document.getElementById("contactForm").reset();
+
+        Swal.fire({
+            title: 'Success!',
+            text: 'Your message has been sent.',
+            icon: 'success',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#3085d6'
+        });
+        
+        } else {
+            throw new Error("Network response was not ok.");
+        }
     })
-    .catch(err => {
-        formMessage.textContent = "Error sending message.";
-        formMessage.style.color = "crimson";
-        formMessage.classList.add("show");
-        console.error(err);
+    .catch(error => {
+        document.getElementById("formMessage").textContent = "Error sending message.";
+        document.getElementById("formMessage").style.color = "red";
+        console.error("Error:", error);
+        
+        Swal.fire({
+            title: "Oops!",
+            text: "Something went wrong. Please try again later.",
+            icon: "error",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#d33"
+        });
     });
 
 });
