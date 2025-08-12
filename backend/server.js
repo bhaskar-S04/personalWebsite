@@ -1,7 +1,6 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
 const express = require("express");
-const mysql = require("mysql2");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
@@ -23,6 +22,15 @@ mongoose.connect(process.env.MONGODB_URI, {
 .then(() => console.log("✅ Connected to MongoDB Atlas"))
 .catch((err) => console.error("❌ MongoDB connection error:", err));
 
+const messageSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  message: String,
+  date: { type: Date, default: Date.now }
+});
+
+const Message = mongoose.model("Message", messageSchema);
+
 
 
 
@@ -40,52 +48,32 @@ app.post("/login", (req, res) => {
 
 
 
-
-
-const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-});
-
-db.connect((err) => {
-  if (err) throw err;
-  console.log("Connected to MySQL database");
-});
-
-
-
-
-
-app.post("/contact", (req, res) => {
+app.post("/contact", async (req, res) => {
   const { name, email, message } = req.body;
 
   if (!name || !email || !message) {
     return res.status(400).json({ error: "All fields are required" });
   }
 
-  const query =
-    "INSERT INTO contact_messages (name, email, message) VALUES (?, ?, ?)";
-  db.query(query, [name, email, message], (err, result) => {
-    if (err) {
-      console.error("Error saving message: ", err);
-      res.status(500).json({ error: "Database error" });
-    }
-      res.status(200).json({ message: "Message received and saved!" });
-  });
+  try {
+    const newMessage = new Message({name, email, message});
+    await newMessage.save();
+    res.status(200).json({message: "Message received and saved!"});
+  } catch (err) {
+    console.error("Error saving message:", err);
+    res.status(500).json({error: "Database error"});
+  }
 });
 
 
-app.get("/messages", (req, res)=> {
-  const query = "SELECT * FROM contact_messages ORDER BY id DESC";
-  db.query(query, (err, results)=> {
-    if(err) {
-      console.error("Error fetching messages:", err);
-      return res.status(500).json({error: "Failed to fetch messages"});
-    }
-    res.json(results);
-  });
+app.get("/messages", async (req, res)=> {
+  try {
+    const message = await Message.find().sort({date: -1});
+    res.json(messages);
+  }catch(err){
+    console.error("Error fetching messages:", err);
+    res.status(500).json({error: "Failed to fetch messages"});
+  }
 });
 
 
