@@ -15,7 +15,7 @@ It includes animated sections, a project showcase, a contact form, and backgroun
 
 ## 📁 Live Demo
 
-[🌐 Visit the live site](https://bhaskar-s04.github.io/myWebsite/)
+[🌐 Visit the live site](https://bhaskar-s04.github.io/personalWebsite/)
 
 ## 🛠 Technologies Used
 
