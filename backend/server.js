@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const {google} = require("googleapis");
+
 const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS);
 
 const app = express();
@@ -9,6 +10,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(bodyParser.json());
+
 
 // Google Sheets setup
 const auth = new google.auth.GoogleAuth({
@@ -25,7 +27,7 @@ app.post("/contact", async (req, res)=> {
         const now = new Date().toLocaleString();
         await sheets.spreadsheets.values.append({
             spreadsheetId: SHEET_ID,
-            range: "Sheet1|A:D",
+            range: "Sheet1!A:D",
             valueInputOption: "RAW",
             requestBody: {
                 values: [[now, name, email, message]],
