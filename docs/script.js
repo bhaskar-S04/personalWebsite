@@ -23,8 +23,12 @@ fadeTexts.forEach (text => {
     observer.observe(text);
 });
 
+
+// Contact form Handling....
 const contactForm = document.getElementById("contactForm");
 const formMessage = document.getElementById("formMessage");
+
+const API_BASE_URL = window.location.hostname === "localhost" ? "http://localhost:3000" : "https://formsubmission-73ah.onrender.com";
 
 contactForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -33,12 +37,14 @@ contactForm.addEventListener("submit", async (e) => {
     const email = document.getElementById("email").value.trim();
     const message = document.getElementById("message").value.trim();
 
+    // Reset previous message
     formMessage.classList.remove("show");
 
     let errorText = "";
-    const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+    const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/; //Email validation...
 
 
+    // Basic validation...
     if (!name || !email || !message) {
         errorText = "! Please fill in all the fields.";
         formMessage.style.color = "crimson";
@@ -54,53 +60,54 @@ contactForm.addEventListener("submit", async (e) => {
         return;
     } 
 
+    // Sending status...
     formMessage.textContent = "Sending...";
     formMessage.style.color = "black";
     formMessage.classList.add("show");
 
-
-    fetch("http://localhost:3000/contact", {
-        method: "POST",
-        headers: {
-            "Content-type": "application/json"
-        },
-        body: JSON.stringify({name, email, message})
-    })
-
-    .then(response => {
-        if(response.ok) {
-        document.getElementById("formMessage").textContent = "Message sent successfully!";
-        document.getElementById("formMessage").style.color = "green";
-        document.getElementById("contactForm").reset();
-
-        Swal.fire({
-            title: 'Success!',
-            text: 'Your message has been sent.',
-            icon: 'success',
-            confirmButtonText: 'OK',
-            confirmButtonColor: '#3085d6'
+    try {
+        const response = await fetch (`${API_BASE_URL}/contact`, {
+            method: "POST",
+            headers: {
+                "Content-type": "Application/json"
+            },
+            body: JSON.stringify({name, email, message})
         });
-        
+
+        const result = await response.json();
+
+        if (response.ok) {
+            formMessage.textContent = "Message sent successfully!";
+            formMessage.style.color = "green";
+            contactForm.reset();
+
+            Swal.fire({
+                title: "Success!",
+                text: "Your message has been sent",
+                icon: "success",
+                confirmButton: "#3085d6"
+            });
         } else {
-            throw new Error("Network response was not ok.");
+            throw new Error(result.message || "Unknown error occured.");
         }
-    })
-    .catch(error => {
-        document.getElementById("formMessage").textContent = "Error sending message.";
-        document.getElementById("formMessage").style.color = "red";
-        console.error("Error:", error);
-        
+    } catch (error) {
+        console.error("Wrror:", error);
+        formMessage.textContent = "Error sending message.";
+        formMessage.style.color = "red";
+
         Swal.fire({
             title: "Oops!",
-            text: "Something went wrong. Please try again later.",
+            text: error.message || "Something went wrong. Please try again later.",
             icon: "error",
-            confirmButtonText: "OK",
             confirmButtonColor: "#d33"
         });
-    });
+    }
+    
 
 });
 
+
+// Scroll to Top button...
 const scrollTopBtn = document.getElementById("scrollTopBtn");
 
 window.addEventListener("scroll", () => {
